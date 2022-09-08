@@ -1,0 +1,7 @@
+restaurante:
+  - ID: 123
+    NOME: "Frango fritis"
+    PROPRIETARIO: "manu001"
+  - ID: 124
+    NOME: "Sarrabui Deus me defenda"
+    PROPRIETARIO: "sil001"
