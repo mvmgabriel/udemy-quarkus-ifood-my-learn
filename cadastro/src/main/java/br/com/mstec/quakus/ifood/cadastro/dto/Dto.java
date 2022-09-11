@@ -2,7 +2,7 @@ package br.com.mstec.quakus.ifood.cadastro.dto;
 
 import javax.validation.ConstraintValidatorContext;
 
-public interface Dto {
+public interface DTO {
 	default boolean isValid(ConstraintValidatorContext constraintValidatorContext) {
 		return true;
 	}

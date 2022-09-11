@@ -6,7 +6,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class AdicionarRestauranteDto implements Dto {
+import br.com.mstec.quakus.ifood.cadastro.dto.valid.ValidDTO;
+import br.com.mstec.quakus.ifood.cadastro.entity.Restaurante;
+
+@ValidDTO
+public class AdicionarRestauranteDto implements DTO {
 
 	@NotEmpty
 	@NotNull
@@ -16,15 +20,21 @@ public class AdicionarRestauranteDto implements Dto {
 	@NotNull
     public String cnpj;
     
-    @Size(min = 3, max = 30)
+    @Size(min = 3, max = 30, message = "O tamanho do nome deve conter no mínimo 3 e no máximo 30 caracteres")
     public String nome;
     
     public LocalizacaoDto localizacao;
 
-	@Override
-	public boolean isValid(ConstraintValidatorContext constraintValidatorContext) {
-		// TODO Auto-generated method stub
-		return Dto.super.isValid(constraintValidatorContext);
-	}
+    @Override
+    public boolean isValid(ConstraintValidatorContext constraintValidatorContext) {
+        constraintValidatorContext.disableDefaultConstraintViolation();
+        if (Restaurante.find("cnpj", cnpj).count() > 0) {
+            constraintValidatorContext.buildConstraintViolationWithTemplate("CNPJ já cadastrado")
+                    .addPropertyNode("cnpj")
+                    .addConstraintViolation();
+            return false;
+        }
+        return true;
+    }
     
 }
